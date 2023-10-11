@@ -1,6 +1,7 @@
 <template>
     <h1>Edit a product</h1>
-    <p><input v-model="product.image" type="text" placeholder="Image URL"><br></p>
+    <div class="container">
+    <p class="img"><input v-model="product.image" type="text" placeholder="Image URL"><br></p>
     <img :src="product.image" alt="Product Image">
     <p><input v-model="product.name" type="text" placeholder="Product name"><br></p>
     <p><input v-model="product.description" type="text" name="Product description" placeholder="book date"></p>
@@ -8,7 +9,8 @@
     <router-link :to="'/Product/' + product._id">
         <button >Go Back</button>
       </router-link>
-    <p><button v-on:click="editProduct">Update Product</button></p>
+    <p><v-btn v-on:click="editProduct">Update Product</v-btn></p>
+</div>
 </template>
 <script>
 import { useRoute } from 'vue-router'
@@ -56,6 +58,7 @@ export default {
                    name: this.product.name,
                    description: this.product.description,
                    price: this.price,
+                   image: this.product.image,
                    email: this.userEmail,
                    id: this.id
                 })
@@ -70,8 +73,15 @@ export default {
     }
 }
 </script>
-<style>
+<style scoped>
 body{
     background-color: #838383;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 </style>

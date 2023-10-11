@@ -9,158 +9,180 @@
 
         <section class="featured-products">
           <h2>Featured Products</h2>
-          <div class="product-container">
-            <div class="product-card">
-              <img src="product1.jpg" alt="Fien Gym Top">
-              <h3>Fien Gym Top</h3>
-              <h4>£22.99</h4>
-              <p>High-quality gym top for your workouts.</p>
-              <v-btn color="primary">Buy Now</v-btn>
-            </div>
-            <div class="product-card">
-              <img src="product2.jpg" alt="Product 2">
-              <h3>Product 2</h3>
-              <p>Description of Product 2.</p>
-              <v-btn color="primary">Buy Now</v-btn>
-            </div>
-            <div class="product-card">
-              <img src="product2.jpg" alt="Product 2">
-              <h3>Product 2</h3>
-              <p>Description of Product 2.</p>
-              <v-btn color="primary">Buy Now</v-btn>
-            </div>
-            <div class="product-card">
-              <img src="product2.jpg" alt="Product 2">
-              <h3>Product 2</h3>ß
-              <p>Description of Product 2.</p>
-              <v-btn color="primary">Buy Now</v-btn>
-            </div>
-         
-            <!-- Add more product cards as needed -->
-          </div>
-        </section>
-
-        <section class="call-to-action" v-if="!isLoggedIn">
-          <h2>Join Us Today</h2>
-          <p>Start your fitness journey with Fitness Fien. Get access to top-quality products and expert guidance.</p>
-          <router-link to="/Login">Sign Up Now</router-link>
+          <v-row justify="center">
+            <v-col cols="12" md="6" lg="4" v-for="product in products" :key="product.id">
+              <v-card class="product-card" elevation="3">
+                <v-img :src="product.image" alt="Product Image"></v-img>
+                <router-link :to="'/Product/' + product.id"><v-card-title class="product-title">{{ product.name }}</v-card-title></router-link>
+                <!-- <v-card-subtitle class="product-price">£{{ product.price }}</v-card-subtitle> -->
+              </v-card>
+            </v-col>
+          </v-row>
         </section>
       </v-container>
+
+      <!-- Footer section -->
+      <v-footer app>
+        <v-container v-if="!isLoggedIn">
+          <v-row>
+            <v-col cols="12" md="6">
+              <h3> Shop With Us and Gain Access to Free Workouts</h3>
+              <v-btn><router-link :to="'/Login'">Sign Up Now</router-link></v-btn>
+            </v-col>
+            <v-col cols="12" md="6">
+              <!-- Add any additional footer content here -->
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-footer>
+      <div class="cookie-banner" v-if="!acceptedCookies">
+        <p class="cookie-text">
+          This website uses cookies to ensure you get the best experience.
+          <v-btn @click="acceptCookies">Accept</v-btn>
+          <v-btn @click="rejectCookies">Reject</v-btn>
+        </p>
+      </div>
     </v-main>
   </v-app>
 </template>
 
 <script>
 import { decodeCredential } from 'vue3-google-login';
-
 export default {
   name: 'HomeVue',
   data: () => ({
-    // Your data here
     isLoggedIn: false,
     userName: '',
     userEmail: '',
     admin: false,
+    acceptedCookies: false,
+    products: [
+      {
+        id: '652663ccf856f0929ce2217e',
+        name: 'Performance Leggings',
+        price: 11.99,
+        image: 'https://as1.ftcdn.net/v2/jpg/06/36/70/96/1000_F_636709613_u1xYgieAdfmz4x8mG7GNlosO0URUjkyQ.jpg',
+      },
+      {
+        id: "65266420f856f0929ce22184",
+        name: 'Compression Shorts',
+        price: 8.99,
+        image: 'https://as2.ftcdn.net/v2/jpg/04/89/27/23/1000_F_489272337_vZbpyJDYdxSCdRzQvuN6MsgKPMM8lhRK.jpg',
+      },
+      {
+        id: '65266439f856f0929ce22187',
+        name: 'Racerback Sports Bras',
+        price: 14.99,
+        image: 'https://as1.ftcdn.net/v2/jpg/06/30/40/72/1000_F_630407279_Lnn720EjN3ukEaqJGWlO0GNupfKWNoxs.jpg',
+      },
+      {
+        id: '6526640af856f0929ce22181',
+        name: 'Muscle Tank Top',
+        price: 15.99,
+        image: 'https://as2.ftcdn.net/v2/jpg/04/20/60/69/1000_F_420606930_z7y2HpkIAEx9ryTC7HDgJ3aNEZ7mDwC2.jpg',
+      },
+    ],
+      accepted: false,
+    
   }),
-  mounted() {
-    // Your authentication logic here
-    if (this.$cookies.isKey('user_session')) {
-      this.isLoggedIn = true;
-
-      const userData = decodeCredential(this.$cookies.get('user_session'));
-      this.userName = userData.given_name;
-      this.userEmail = userData.email;
-      this.admin = this.userEmail === 'elliotrnlewis@gmail.com';
+  methods: {
+    acceptCookies() {
+      this.accepted = true;
+      this.acceptedCookies = true
+      this.$cookies.set('acceptedCookies', true);
+    },
+    rejectCookies() {
+      this.accepted = true;
+      this.acceptedCookies = true
+      this.$cookies.set('acceptedCookies', true);
     }
   },
-};
+  mounted() {
+        if (this.$cookies.isKey('user_session')) {
+            this.isLoggedIn = true;
+            const userData = decodeCredential(this.$cookies.get('user_session'));
+            this.userName = userData.given_name;
+            this.userEmail = userData.email
+            this.admin = false
+            if (this.userEmail === 'elliotrnlewis@gmail.com') {
+                this.admin = true
+            }
+        }
+        const acceptedCookies = this.$cookies.isKey('acceptedCookies')
+        if (acceptedCookies){
+          this.acceptedCookies = true
+        }
+
+}
+}
 </script>
+
 <style scoped>
-/* Add your styles here */
-.hero {
-  background-image: url('');
-  object-fit: contain;
-  background-size: cover;
-  background-position: center;
+.cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #333;
+  color: #fff;
   text-align: center;
+  padding: 10px;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+}
+
+.cookie-text {
+  margin: 0;
+  color: #fff;
+}
+
+button {
+  background: #007bff;
   color: #000000;
-  padding: 100px 0;
+  border: none;
+  margin: 0 5px;
+  cursor: pointer;
+}
+.product-card {
+  max-width: 100%;
+  text-align: center;
+  transition: transform 0.2s;
+  cursor: pointer;
 }
 
-.hero h1 {
-  font-size: 3rem;
-  margin-bottom: 20px;
+router-link{
+  color: black;
+}
+.product-card:hover {
+  transform: scale(1.05);
 }
 
-.hero p {
-  font-size: 1.5rem;
-  margin-bottom: 40px;
+.product-title {
+  font-size: 1.2rem;
+  font-weight: bold;
 }
 
-.featured-products {
+.product-price {
+  font-size: 1rem;
+  color: #007bff;
+}
+
+p {
+  display: flex;
+  justify-content: center;
+}
+
+/* Styles for the footer section */
+v-footer,s{
   background-color: #ffffff;
+  color: #060606;
+  text-align: center;
   padding: 40px 0;
 }
 
-.product-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  align-items: center;
-}
-
-.product-card {
-  background-color: #fff;
-  border: 1px solid #ddd;
-  padding: 20px;
-  margin: 20px;
-  text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  max-width: 300px;
-}
-
-.product-card img {
-  max-width: 100%;
-  height: auto;
-  margin-bottom: 10px;
-}
-
-.product-card h3 {
+h3 {
   font-size: 1.5rem;
-}
-
-.product-card p {
-  font-size: 1.2rem;
   margin-bottom: 20px;
 }
-
-.product-card h4 {
-  font-size: 1.2rem;
-  font-weight: bold;
-  margin-bottom: 20px;
-}
-
-.call-to-action {
-  background-color: #007bff;
-  color: #fff;
-  text-align: center;
-  padding: 60px 0;
-}
-
-.call-to-action h2 {
-  font-size: 2rem;
-  margin-bottom: 20px;
-}
-
-.call-to-action p {
-  font-size: 1.5rem;
-  margin-bottom: 40px;
-}
-
-.call-to-action a {
-  color: #fff;
-  text-decoration: none;
-  font-size: 1.2rem;
-}
-
 </style>

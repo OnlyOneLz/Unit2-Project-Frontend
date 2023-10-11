@@ -1,91 +1,14 @@
-/* Reset some default browser styles */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+main{
+  background-color: bisque;
 }
-
-/* Set the background color and default font for the entire page */
-body {
-  background-color: #838383; /* Light gray background */
-  font-family: 'Victor Mono', monospace;
-  color: #333; /* Dark text color */
-}
-
-/* Create a container to center content on the page */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-/* Style the navigation menu */
-nav {
+h1{
   text-align: center;
-}
+  font-family: 'Croissant One', serif;
 
-nav ul {
-  list-style-type: none;
-  margin-top: 10px;
-}
-
-nav li {
-  display: inline;
-  margin-right: 20px;
-}
-
-nav a {
-  text-decoration: none;
-  color: #fff; /* White links */
-  font-weight: bold;
-}
-
-/* Style the main content area */
-.main-content {
-  background-color: #fff; /* White background */
-  padding: 20px;
-  margin-top: 20px;
-}
-
-/* Style headings and paragraphs */
-h1, h2, h3 {
-  color: #000000; /* Darker headings */
-  font-family: 'Bebas Neue', sans-serif;
 }
 
 p {
-  line-height: 1.6;
-  margin-bottom: 20px;
-  color: #fff;
   font-family: 'Victor Mono', monospace;
-}
-
-/* Style links */
-a {
-  color: #6d6d6d; /* Bright blue links */
-  text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
-  color: #000000;
-}
-
-/* Style buttons */
-.button {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: #808080; /* Bright blue button */
-  color: #fff; /* White text */
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
-  text-align: center;
-  text-decoration: none;
-}
-
-.button:hover {
-  background-color: #2980b9; /* Slightly darker blue on hover */
 }
 
 /* Media queries for responsiveness */

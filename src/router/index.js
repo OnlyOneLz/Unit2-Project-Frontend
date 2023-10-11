@@ -7,6 +7,8 @@ import Product from '../components/Product'
 import EditProduct from '../components/EditProduct'
 import Basket from '../components/Basket'
 import LoginForm from '../components/auth/Login'
+import Workouts from '../components/Workouts'
+import AddReview from '../components/AddReview'
 
 const routes = [
   {
@@ -43,6 +45,16 @@ const routes = [
     name: 'LoginForm',
     path: '/Login',
     component: LoginForm
+  },
+  {
+    name: 'Workouts',
+    path: '/Workouts',
+    component: Workouts
+  },
+  {
+    name: 'AddReview',
+    path: '/Product/:id/AddReview',
+    component: AddReview
   },
   {
     path: '/Basket',

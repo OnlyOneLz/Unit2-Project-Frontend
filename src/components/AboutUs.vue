@@ -45,14 +45,14 @@
       name: 'AboutVue'
     }
 </script>
-<style>
+<style scoped>
   /* Background and container styles */
-  body {
-    background-color: #f4f4f4;
-  }
+  main{
+  background-color: bisque;
+}
 
   .container5 {
-    background-color: #fff;
+  background-color: bisque;
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);

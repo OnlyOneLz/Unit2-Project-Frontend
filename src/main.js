@@ -8,6 +8,7 @@ import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
+import 'jquery';
 
 
 export default createVuetify({
@@ -27,7 +28,7 @@ const vuetify = createVuetify({
   directives,
 })
 
-
+import 'bootstrap/dist/js/bootstrap.bundle';
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap"
 

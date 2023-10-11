@@ -15,12 +15,13 @@
             <p class="item-name">{{ item.name }}</p>
           </div>
         </router-link>
-        <p class="item-price">Price: £{{ item.price.$numberDecimal }}</p>
-        <button @click="removeItem(item._id)">Remove item</button>
-      </div>
-
+        <p class="item-price">Price: £{{ item.price?.$numberDecimal }}</p>
+        <v-btn @click="removeItem(item._id)">Remove item</v-btn>
+       
+        </div>
       <div class="total">
-        <p>Your Basket Total: £{{ sum.toFixed(2) }}</p>
+        <p>Your Basket Total: £{{ sum }}</p>
+        <ModalVue></ModalVue>
       </div>
     </div>
   </div>
@@ -28,7 +29,7 @@
 
 <script>
 import { decodeCredential } from 'vue3-google-login';
-
+import ModalVue from '../views/modal'
 export default {
   name: 'BasketVue',
   data: () => ({
@@ -37,6 +38,9 @@ export default {
     items: [],
     sum: 0,
   }),
+  components: {
+    ModalVue
+  },
   mounted() {
     if (this.$cookies.isKey('user_session')) {
       const userData = decodeCredential(this.$cookies.get('user_session'));
@@ -49,37 +53,24 @@ export default {
       .then((result) => {
         this.items = result.items;
 
-        // Calculate the total sum of items in the basket
-        this.sum = this.items.reduce((total, item) => total + parseFloat(item.price.$numberDecimal), 0);
-      })
+        let sum = 0
+        console.log(this.items[0].price.$numberDecimal)
+        for (let i = 0;i <= this.items.length; i++){
+        sum = sum + parseFloat(this.items[i].price.$numberDecimal)  
+        this.sum = sum
+        console.log(sum)
+        
+      }
+    })
+    
       .catch((error) => {
         console.error('Error fetching data: ' + error);
       });
   },
   methods: {
-    methods: {
-  removeItem(itemId) {
-    fetch(`http://localhost:4000/user/Basket`, {
-      method: "DELETE",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email: this.userEmail,
-        id: itemId
-      })
-    })
-      .then(() => {
-         // Reload the page or update the basket items without a reload
-          this.items = this.items.filter((item) => item._id !== itemId);
-          // Recalculate the total sum
-          this.sum = this.items.reduce((total, item) => total + parseFloat(item.price.$numberDecimal), 0);
-        window.location.reload();
-      });
-  },
-},
-
     removeItem(itemId) {
+      const itemRemove = this.items.findIndex((item) => item._id === itemId);
+      if(itemRemove !== -1){
       fetch(`http://localhost:4000/user/Basket`, {
         method: "DELETE",
         headers: {
@@ -90,12 +81,19 @@ export default {
           id: itemId
         })
       })
-        .then(() => {
+        .then(response => {
+            console.log(response);
           // Reload the page or update the basket items without a reload
-          this.items = this.items.filter((item) => item._id !== itemId);
+          this.$set(this.items, itemRemove, null)
+          this.items.filter((item) => item !== null);
+          console.log("Updated List", this.items);
           // Recalculate the total sum
           this.sum = this.items.reduce((total, item) => total + parseFloat(item.price.$numberDecimal), 0);
-        });
+        })
+        .catch(error => {
+          console.error("Network error:", error);
+        })
+      }
     },
   },
 };
