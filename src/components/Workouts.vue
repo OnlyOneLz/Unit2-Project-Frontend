@@ -2,7 +2,7 @@
     <div>
       <h1>Workouts for you!</h1>
       <p>Use this search bar to find different workouts depending on which muscle you want to work out.</p>
-      <v-form>
+      <v-form class="v-form">
         <v-text-field v-model="muscle" label="Search by Muscle" outlined class="search-input"></v-text-field>
         <v-btn @click="fetchWorkouts" color="primary" class="search-button">Search</v-btn>
       </v-form>
@@ -97,6 +97,7 @@
     font-family: 'Arial', sans-serif;
     font-size: 1.5rem;
     color: #333;
+    max-width: 40vmin;
   }
   
   p {
@@ -112,8 +113,10 @@
   .workout-item {
     border: 1px solid #ccc;
     border-radius: 8px;
-    margin: 10px 0;
+    margin: 10px 0 ;
     cursor: pointer;
+    text-align: center;
+    padding: 40px;
   }
   
   .workout-name {
@@ -164,6 +167,13 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: pre-line;
+  }
+
+.v-form {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
   }
 
 .v-list-item-group {

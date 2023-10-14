@@ -88,11 +88,13 @@ export default {
           this.items.filter((item) => item !== null);
           console.log("Updated List", this.items);
           // Recalculate the total sum
-          this.sum = this.items.reduce((total, item) => total + parseFloat(item.price.$numberDecimal), 0);
         })
         .catch(error => {
           console.error("Network error:", error);
         })
+        this.items.splice(itemRemove, 1)
+        this.sum = this.items.reduce((total, item) => total + parseFloat(item.price.$numberDecimal), 0);
+        location.reload()
       }
     },
   },

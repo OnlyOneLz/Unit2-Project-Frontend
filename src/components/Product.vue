@@ -1,63 +1,112 @@
 <template>
-    <div class="product-page">
-        <ul>
-            <img class="product-image" :src="Product.image" alt="Product Image">
-            <p class="product-name">{{ Product.name }}</p>
-            <p class="product-description">Description: {{ Product.description }}</p>
-            <p class="product-price">Price: £ {{ price }}</p>
-        </ul>
-        <div class="collection">
-            <router-link :to="'/Collection'">
-                <v-btn class="back-button">Go back</v-btn>
-            </router-link>
-        </div>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>eCommerce Product Detail</title>
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+        <!-- Include your Bootstrap and JavaScript libraries here -->
+    </head>
 
-        <div v-if="admin" class="admin-options">
-            <v-btn @click="deleteProduct"   class="delete-button">Delete</v-btn>
-            <router-link :to="'/EditProduct/' + Product._id">
-                <v-btn @click="editProduct" density="compact" class="edit-button">Edit Product</v-btn>
-            </router-link>
-        </div>
-
-        <router-link :to="'/Login'">
-            <v-btn v-if="!isLoggedIn" class="login-button">Login to add to basket</v-btn>
-        </router-link>
-
-        <div v-if="isLoggedIn">
-            <v-btn @click="addToBasket" density="compact" class="add-to-basket-button">Add to Basket</v-btn>
-        </div>
-        <div v-if="displayRemoveBtn">
-            <v-btn @click="removeProduct" density="compact" class="remove-from-basket-button">Remove from basket</v-btn>
-        </div>
-
-    </div>
-
-    <div class="reviews-container">
-        <h2>Reviews</h2>
-        <div v-for="review in reviews" :key="review._id" class="review-box">
-            <div class="review-details">
-                <div>
-                    <p class="review-text">{{ review.text }}</p>
+    <body>
+        <div class="container">
+            <div class="card">
+                <div class="container-fliud">
+                    <div class="wrapper row">
+                        <div class="preview col-md-6">
+                            <div class="preview-pic tab-content">
+                                <div class="collection">
+                                    <router-link :to="'/Collection'">
+                                        <v-btn density="compact" class="edit-button">Go back</v-btn>
+                                    </router-link>
+                                </div>
+                                <div class="tab-pane active" id="pic-1"><img :src="Product.image" alt="Product Image" />
+                                </div>
+                                <div v-if="admin" class="admin-options">
+                                    <v-btn @click="deleteProduct" density="compact" class="edit-Button">Delete</v-btn>
+                                    <router-link :to="'/EditProduct/' + Product._id">
+                                        <v-btn @click="editProduct" density="compact" class="edit-button">Edit
+                                            Product</v-btn>
+                                    </router-link>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="details col-md-6">
+                            <h3 class="product-title">{{ Product.name }}</h3>
+                            <div class="rating">
+                                <div class="stars">
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star checked"></span>
+                                    <span class="fa fa-star"></span>
+                                    <span class="fa fa-star"></span>
+                                </div>
+                            </div>
+                            <p class="product-description">{{ Product.description }}</p>
+                            <h4 class="price">current price: <span>{{ price }}</span></h4>
+                            <h5 class="sizes">sizes:
+                                <span class="size" data-toggle="tooltip" title="small">s</span>
+                                <span class="size" data-toggle="tooltip" title="medium">m</span>
+                                <span class="size" data-toggle="tooltip" title="large">l</span>
+                                <span class="size" data-toggle="tooltip" title="xtra large">xl</span>
+                            </h5>
+                            <h5 class="colors">colors:
+                                <span class="color orange not-available" data-toggle="tooltip" title="Not In store"></span>
+                                <span class="color green"></span>
+                                <span class="color blue"></span>
+                            </h5>
+                            <div class="action">
+                                <router-link :to="'/Login'">
+                                    <v-btn v-if="!isLoggedIn" class="login-button">Login to add to basket</v-btn>
+                                </router-link>
+                                <div v-if="isLoggedIn">
+                                    <v-btn @click="addToBasket" density="compact" class="add-to-basket-button">Add to
+                                        Basket</v-btn>
+                                </div>
+                                <div class="removeBtn" v-if="displayRemoveBtn">
+                                    <v-btn @click="removeProduct" density="compact" class="remove-from-basket-button">Remove
+                                        from basket</v-btn>
+                                </div>
+                            </div>
+                            <div class="addReviews">
+                                <AddReview />
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="star-rating">
-                    <span v-for="i in review.rating" :key="i" class="star">&#9733;</span>
+                <v-btn class="showReviews" density="short" @click="toggleReviews">
+                    {{ showReviews ? 'Hide Reviews' : 'Show Reviews' }}
+                </v-btn>
+                <div class="product-reviews" v-if="showReviews"> <!-- Add v-if directive here -->
+                    <div class="reviews-container">
+                        <h2>Reviews</h2>
+                        <div v-for="review in reviews" :key="review._id" class="review-box">
+                            <div class="review-details">
+                                <div class="user">
+                                    <img :src="review.image" alt="">
+                                    <p>Made By- {{ review.name }}</p>
+                                </div>
+                                <p>Date of Review - {{ review.date }}</p>
+                                <p>Rating - {{ review.rating }}/5</p>
+                                <p>Thoughts - {{ review.text }}</p>
+                            </div>
+                            <div class="review-actions">
+                                <v-btn v-if="review.userEmail === userEmail" @click="deleteReview(review._id)">Delete
+                                    Review</v-btn>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div v-if="review.userEmail === userEmail" class="review-actions">
-                <v-btn @click="deleteReview(review._id)" class="delete-review-button">Delete Review</v-btn>
-            </div>
         </div>
-        <AddReview />
-    <MessageModal></MessageModal>
-    </div>
+    </body>
 </template>
+
+
   
 <script>
 import { decodeCredential } from 'vue3-google-login';
 import { useRoute } from 'vue-router';
 import AddReview from '../components/AddReview.vue'
-import MessageModal from '../views/MessageModal.vue';
-
 export default {
     name: 'ProductVue',
     data() {
@@ -72,14 +121,19 @@ export default {
             itemArray: [],
             displayRemoveBtn: false,
             item: null,
-            message: ''
-        };
+            message: '',
+            reviewEmail: '',
+            showReviews: false,
+        }
     },
+    emits: ['length'],
     components: {
-        AddReview,
-        MessageModal
+        AddReview
     },
     methods: {
+        toggleReviews() {
+            this.showReviews = !this.showReviews;
+        },
         deleteProduct: function () {
             fetch(`http://localhost:4000/Product/${this.id}`, {
                 method: 'DELETE',
@@ -97,8 +151,15 @@ export default {
                 body: JSON.stringify({
                     id: this.id,
                     email: this.userEmail,
-                }),
-            })
+                })
+
+            }).then(res => res.json())
+                .then(data => {
+                    this.itemArray = data.items
+                    console.log(data.items)
+                })
+            this.displayRemoveBtn = true
+            location.reload()
         },
         removeProduct: function () {
             fetch(`http://localhost:4000/Product`, {
@@ -110,7 +171,21 @@ export default {
                     id: this.id,
                     email: this.userEmail,
                 }),
+            }).then(res => res.json())
+                .then(data => {
+                    this.itemArray = data.items
+                })
+            let sum = 0
+            this.itemArray.forEach(item => {
+                if (this.id === item._id) {
+                    sum++
+                }
             })
+            if (sum === 1) {
+                this.displayRemoveBtn = false
+            }
+            location.reload()
+
         },
         itemExists: function (productId) {
             return this.itemArray.some((item) => item._id === productId);
@@ -126,6 +201,9 @@ export default {
                     console.error('Error deleting review:', error);
                 });
         },
+        reloadPage: function () {
+      location.reload
+    }
     },
     mounted() {
         if (this.$cookies.isKey('user_session')) {
@@ -144,8 +222,10 @@ export default {
             .then((result) => {
                 this.itemArray = result.items;
                 this.item = result;
-                this.displayRemoveBtn = this.itemExists(route.params.id);
-                console.log(this.itemExists(route.params.id));
+                if (this.isLoggedIn) {
+                    this.displayRemoveBtn = this.itemExists(route.params.id);
+                    console.log(this.itemExists(route.params.id));
+                }
             });
 
         fetch(`http://localhost:4000/Product/${route.params.id}`)
@@ -164,6 +244,9 @@ export default {
                 this.reviews = result
                 this.reviewId = result._id
                 this.id = route.params.id
+                this.reviewImage = result.image
+                this.reviewName = result.name
+
             })
             .catch((error) => {
                 this.error = 'Error fetching data: ' + error;
@@ -179,48 +262,252 @@ export default {
 </script>
   
 <style scoped>
-.message {
-  font-size: 1rem;
-  color: #4caf50;
-  margin-top: 10px;
-  font-weight: bold;
-}
-.product-page {
-    text-align: center;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+body {
+    font-family: 'open sans';
+    overflow-x: hidden;
 }
 
-.product-image {
-    max-width: 50vmin;
-    max-height: 50vmin;
-    height: auto;
-    margin-bottom: 20px;
+img {
+    max-width: 100%;
 }
 
-.product-name {
-    font-size: 2rem;
-    color: #333;
+.preview {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+
+@media screen and (max-width: 996px) {
+    .preview {
+        margin-bottom: 20px;
+    }
+}
+
+.preview-pic {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+}
+
+.preview-thumbnail.nav-tabs {
+    border: none;
+    margin-top: 15px;
+}
+
+.preview-thumbnail.nav-tabs li {
+    width: 18%;
+    margin-right: 2.5%;
+}
+
+.preview-thumbnail.nav-tabs li img {
+    max-width: 100%;
+    display: block;
+}
+
+.preview-thumbnail.nav-tabs li a {
+    padding: 0;
+    margin: 0;
+}
+
+.preview-thumbnail.nav-tabs li:last-of-type {
+    margin-right: 0;
+}
+
+.tab-content {
+    overflow: hidden;
+}
+
+.tab-content img {
+    width: 100%;
+    -webkit-animation-name: opacity;
+    animation-name: opacity;
+    -webkit-animation-duration: .3s;
+    animation-duration: .3s;
+}
+
+.card {
+    margin-top: 50px;
+    background: #eee;
+    padding: 3em;
+    line-height: 1.5em;
+}
+
+@media screen and (min-width: 997px) {
+    .wrapper {
+        display: -webkit-box;
+        display: -webkit-flex;
+        display: -ms-flexbox;
+        display: flex;
+    }
+}
+
+.details {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+
+.colors {
+    -webkit-box-flex: 1;
+    -webkit-flex-grow: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+}
+
+.product-title,
+.price,
+.sizes,
+.colors {
+    text-transform: UPPERCASE;
     font-weight: bold;
 }
 
-.product-description {
-    font-size: 1.2rem;
-    color: #666;
-    margin-bottom: 20px;
+.checked,
+.price span {
+    color: #ff9f1a;
 }
 
-.product-price {
-    font-size: 1.5rem;
-    color: #007bff;
+.addReviews {
+    margin-top: 5vmin;
 }
+
+.product-title,
+.rating,
+.product-description,
+.price,
+.vote,
+.sizes {
+    margin-bottom: 15px;
+}
+
+.product-title {
+    margin-top: 0;
+}
+
+.size {
+    margin-right: 10px;
+}
+
+.size:first-of-type {
+    margin-left: 40px;
+}
+
+.color {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 10px;
+    height: 2em;
+    width: 2em;
+    border-radius: 2px;
+}
+
+.color:first-of-type {
+    margin-left: 20px;
+}
+
+.add-to-cart,
+.like {
+    background: #ff9f1a;
+    padding: 1.2em 1.5em;
+    border: none;
+    text-transform: UPPERCASE;
+    font-weight: bold;
+    color: #fff;
+    -webkit-transition: background .3s ease;
+    transition: background .3s ease;
+}
+
+.addReview {
+    background-color: grey;
+}
+
+.add-to-cart:hover,
+.like:hover {
+    background: #b36800;
+    color: #fff;
+}
+
+.not-available {
+    text-align: center;
+    line-height: 2em;
+}
+
+.not-available:before {
+    font-family: fontawesome;
+    content: "\f00d";
+    color: #fff;
+}
+
+.orange {
+    background: #0c082a;
+}
+
+.green {
+    background: #ad0000;
+}
+
+.blue {
+    background: #000000;
+}
+
+.tooltip-inner {
+    padding: 1.3em;
+}
+
+body {
+    background-color: bisque;
+}
+
+@-webkit-keyframes opacity {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale(3);
+        transform: scale(3);
+    }
+
+    100% {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
+@keyframes opacity {
+    0% {
+        opacity: 0;
+        -webkit-transform: scale(3);
+        transform: scale(3);
+    }
+
+    100% {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        transform: scale(1);
+    }
+}
+
 
 .back-button,
 .login-button,
 add-to-basket-button,
-remove-from-basket-button {
+remove-from-basket-button,
+.delete-button,
+edit-button,
+delete-review-button,
+edit-review-button {
     padding: 10px 20px;
     background-color: #007bff;
     color: #fff;
@@ -231,18 +518,8 @@ remove-from-basket-button {
     margin: 10px;
 }
 
-.delete-button,
-edit-button,
-delete-review-button,
-edit-review-button {
-    padding: 10px 20px;
-    background-color: #ff0000;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 1rem;
-    margin: 10px;
+.showReviews {
+    margin-top: 5vmin;
 }
 
 .admin-options {
@@ -258,60 +535,71 @@ edit-review-button {
 }
 
 .remove-from-basket-button {
-    background-color: #ff5722;
+    background-color: #ff0000;
+}
+
+.product-reviews {
+    text-align: center;
+    min-height: 400px;
 }
 
 .reviews-container {
     display: flex;
     flex-direction: column;
-    flex-wrap: nowrap;
-    margin-top: 15px;
-    max-height: 54vmin;
-    /* Set a maximum height for the container */
-    overflow-y: auto;
-    /* Add a vertical scrollbar when content overflows */
-    justify-content: center;
-    justify-items: center;
     align-items: center;
-    text-align: center;
+    gap: 20px;
+
 }
 
 .review-box {
-    display: flex;
-    flex-wrap: wrap;
+    max-width: 700px;
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    border: 2px solid #000000;
+    border-radius: 10px;
     padding: 20px;
-    border: 1px solid #eee;
-    border-radius: 8px;
-    margin: 10px 0;
-    width: 40vmin;
-    max-height: 30vmin;
-    justify-content: center;
-    flex-direction: row;
-
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 15px;
+    max-height: 20vmin;
 }
 
 .review-details {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.review-actions button {
+    padding: 8px 16px;
+    margin: 5px;
+    font-size: 16px;
+    background-color: #FF7B00;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.review-actions button:hover {
+    background-color: #FF6A00;
+}
+
+.user {
     display: flex;
-    flex-wrap: wrap;
-    align-items: center;
     justify-content: space-between;
-    gap: 5vmin;
-    margin-bottom: 10px;
 }
 
-.star {
-    color: gold;
+.user img {
+    height: 30px;
 }
 
-.review-text {
-    font-size: 1rem;
+.addReview {
+    border: #000000;
+    background-color: white;
 }
 
-.review-actions {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    margin-top: 10px;
+p {
+    font-family: 'Bebas Neue', sans-serif;
 }
 
 .edit-review-button,
@@ -326,4 +614,3 @@ delete-review-button {
     margin-right: 10px;
 }
 </style>
-  

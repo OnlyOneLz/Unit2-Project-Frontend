@@ -11,11 +11,13 @@
           <h2>Featured Products</h2>
           <v-row justify="center">
             <v-col cols="12" md="6" lg="4" v-for="product in products" :key="product.id">
-              <v-card class="product-card" elevation="3">
-                <v-img :src="product.image" alt="Product Image"></v-img>
-                <router-link :to="'/Product/' + product.id"><v-card-title class="product-title">{{ product.name }}</v-card-title></router-link>
-                <!-- <v-card-subtitle class="product-price">£{{ product.price }}</v-card-subtitle> -->
-              </v-card>
+              <router-link :to="'/Product/' + product.id">
+                <v-card class="product-card" elevation="3">
+                  <v-img :src="product.image" alt="Product Image"></v-img>
+                  <v-card-title class="product-title">{{ product.name }}</v-card-title>
+                  <!-- <v-card-subtitle class="product-price">£{{ product.price }}</v-card-subtitle> -->
+                </v-card>
+              </router-link>
             </v-col>
           </v-row>
         </section>
@@ -23,10 +25,23 @@
 
       <!-- Footer section -->
       <v-footer app>
+        <v-container v-if="isLoggedIn">
+          <v-row>
+            <v-col cols="12" md="6">
+              <h3> Check out our free workuts </h3>
+              <v-btn><router-link :to="'/Workouts'">Here</router-link></v-btn>
+            </v-col>
+            <v-col cols="12" md="6">
+              <!-- Add any additional footer content here -->
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-footer>
+      <v-footer app>
         <v-container v-if="!isLoggedIn">
           <v-row>
             <v-col cols="12" md="6">
-              <h3> Shop With Us and Gain Access to Free Workouts</h3>
+              <h3> To shop with us and gain access to Free Workouts</h3>
               <v-btn><router-link :to="'/Login'">Sign Up Now</router-link></v-btn>
             </v-col>
             <v-col cols="12" md="6">
@@ -69,12 +84,12 @@ export default {
         price: 8.99,
         image: 'https://as2.ftcdn.net/v2/jpg/04/89/27/23/1000_F_489272337_vZbpyJDYdxSCdRzQvuN6MsgKPMM8lhRK.jpg',
       },
-      {
-        id: '65266439f856f0929ce22187',
-        name: 'Racerback Sports Bras',
-        price: 14.99,
-        image: 'https://as1.ftcdn.net/v2/jpg/06/30/40/72/1000_F_630407279_Lnn720EjN3ukEaqJGWlO0GNupfKWNoxs.jpg',
-      },
+      // {
+      //   id: '65266439f856f0929ce22187',
+      //   name: 'Racerback Sports Bras',
+      //   price: 14.99,
+      //   image: 'https://as1.ftcdn.net/v2/jpg/06/30/40/72/1000_F_630407279_Lnn720EjN3ukEaqJGWlO0GNupfKWNoxs.jpg',
+      // },
       {
         id: '6526640af856f0929ce22181',
         name: 'Muscle Tank Top',
@@ -82,8 +97,7 @@ export default {
         image: 'https://as2.ftcdn.net/v2/jpg/04/20/60/69/1000_F_420606930_z7y2HpkIAEx9ryTC7HDgJ3aNEZ7mDwC2.jpg',
       },
     ],
-      accepted: false,
-    
+    accepted: false,
   }),
   methods: {
     acceptCookies() {
@@ -98,22 +112,22 @@ export default {
     }
   },
   mounted() {
-        if (this.$cookies.isKey('user_session')) {
-            this.isLoggedIn = true;
-            const userData = decodeCredential(this.$cookies.get('user_session'));
-            this.userName = userData.given_name;
-            this.userEmail = userData.email
-            this.admin = false
-            if (this.userEmail === 'elliotrnlewis@gmail.com') {
-                this.admin = true
-            }
-        }
-        const acceptedCookies = this.$cookies.isKey('acceptedCookies')
-        if (acceptedCookies){
-          this.acceptedCookies = true
-        }
+    if (this.$cookies.isKey('user_session')) {
+      this.isLoggedIn = true;
+      const userData = decodeCredential(this.$cookies.get('user_session'));
+      this.userName = userData.given_name;
+      this.userEmail = userData.email
+      this.admin = false
+      if (this.userEmail === 'elliotrnlewis@gmail.com') {
+        this.admin = true
+      }
+    }
+    const acceptedCookies = this.$cookies.isKey('acceptedCookies')
+    if (acceptedCookies) {
+      this.acceptedCookies = true
+    }
 
-}
+  }
 }
 </script>
 
@@ -144,6 +158,7 @@ button {
   margin: 0 5px;
   cursor: pointer;
 }
+
 .product-card {
   max-width: 100%;
   text-align: center;
@@ -151,9 +166,10 @@ button {
   cursor: pointer;
 }
 
-router-link{
+router-link {
   color: black;
 }
+
 .product-card:hover {
   transform: scale(1.05);
 }
@@ -173,8 +189,12 @@ p {
   justify-content: center;
 }
 
-/* Styles for the footer section */
-v-footer,s{
+a {
+  color: #000000;
+
+}
+v-footer,
+s {
   background-color: #ffffff;
   color: #060606;
   text-align: center;
@@ -184,5 +204,4 @@ v-footer,s{
 h3 {
   font-size: 1.5rem;
   margin-bottom: 20px;
-}
-</style>
+}</style>

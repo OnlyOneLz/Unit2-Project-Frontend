@@ -2,12 +2,7 @@
   <div>
     <h1>Gym Attire</h1>
     <div class="product-container">
-      <router-link
-        v-for="Product in Products"
-        :key="Product._id"
-        :to="'/Product/' + Product._id"
-        class="product"
-      >
+      <router-link v-for="Product in Products" :key="Product._id" :to="'/Product/' + Product._id" class="product">
         <div class="product-card">
           <img class="product-image" :src="Product.image" alt="Product Image">
           <p class="product-name">{{ Product.name }}</p>
@@ -35,12 +30,11 @@ export default {
         this.error = 'Error fetching data: ' + error;
       });
   },
-  methods: {},
-};
+  methods: {}
+}
 </script>
 
 <style scoped>
-/* Add your collection page styles here */
 .product-container {
   display: flex;
   flex-wrap: wrap;

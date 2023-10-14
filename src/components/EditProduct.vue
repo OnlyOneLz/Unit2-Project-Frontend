@@ -77,7 +77,6 @@ export default {
 body{
     background-color: #838383;
 }
-
 .container {
     display: flex;
     flex-direction: column;

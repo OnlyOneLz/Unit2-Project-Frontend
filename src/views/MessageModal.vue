@@ -21,13 +21,16 @@
   </template>
   
   <script>
+  import 'jquery'
   export default {
     name: 'MessageModal',
     methods: {
-    //   openModal() {
-    //     $('#messageModal').modal('show');
-    //   },
+      // openModal() {
+      //   $('#messageModal').modal('show');
+      // },
     },
   };
   </script>
+
+
   
