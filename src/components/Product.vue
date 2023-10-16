@@ -125,8 +125,9 @@ export default {
             reviewEmail: '',
             showReviews: false,
             admin: '',
-            dataReady: false
+            
         }
+        
     },
     emits: ['length'],
     components: {
@@ -159,9 +160,10 @@ export default {
                 .then(data => {
                     this.itemArray = data.items
                     console.log(data.items)
+                    this.displayRemoveBtn = true
+                    location.reload()
                 })
-                this.displayRemoveBtn = true
-                location.reload()
+               
         },
         removeProduct: function () {
             fetch(`${process.env.VUE_APP_BACKEND_API}/Product`, {
