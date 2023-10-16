@@ -237,6 +237,7 @@ export default {
                 this.Product = result;
                 this.id = route.params.id;
                 this.price = parseFloat(result.price.$numberDecimal);
+                this.dataReady = true
             })
             .catch((error) => {
                 this.error = 'Error fetching data: ' + error;
@@ -249,7 +250,7 @@ export default {
                 this.id = route.params.id
                 this.reviewImage = result.image
                 this.reviewName = result.name
-
+                this.dataReady = true
             })
             .catch((error) => {
                 this.error = 'Error fetching data: ' + error;
