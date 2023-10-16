@@ -49,7 +49,7 @@ export default {
       this.image = userData.picture;
       this.admin = this.userEmail === 'elliotrnlewis@gmail.com';
     }
-    fetch(`http://localhost:4000/Basket/${this.userEmail}`)
+    fetch(`${process.env.VUE_APP_BACKEND_API}/Basket/${this.userEmail}`)
       .then((response) => response.json())
       .then((result) => {
         this.items = result.items;
@@ -58,7 +58,7 @@ export default {
         this.error = 'Error fetching data: ' + error;
       });
     
-    fetch(`http://localhost:4000/Product/user/${this.userEmail}`)
+    fetch(`${process.env.VUE_APP_BACKEND_API}/Product/user/${this.userEmail}`)
       .then((response) => response.json())
       .then((result) => {
         this.itemArray = result.items;
