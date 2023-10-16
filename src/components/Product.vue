@@ -229,7 +229,7 @@ export default {
                 }
             });
 
-        fetch(`http://localhost:4000/Product/${route.params.id}`)
+        fetch(`${process.env.VUE_APP_BACKEND_API}/Product/${route.params.id}`)
             .then((response) => response.json())
             .then((result) => {
                 this.Product = result;
@@ -239,7 +239,7 @@ export default {
             .catch((error) => {
                 this.error = 'Error fetching data: ' + error;
             });
-        fetch(`http://localhost:4000/Product/${route.params.id}/Review`)
+        fetch(`${process.env.VUE_APP_BACKEND_API}/Product/${route.params.id}/Review`)
             .then((response) => response.json())
             .then((result) => {
                 this.reviews = result
