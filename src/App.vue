@@ -47,7 +47,7 @@ export default {
       this.userName = userData.given_name;
       this.userEmail = userData.email;
       this.image = userData.picture;
-      this.admin = this.userEmail === 'elliotrnlewis@gmail.com';
+      this.admin = this.userEmail === 'john.paul.godfrey@gmail.com';
     }
     fetch(`${process.env.VUE_APP_BACKEND_API}/Basket/${this.userEmail}`)
       .then((response) => response.json())
