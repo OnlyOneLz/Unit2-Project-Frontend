@@ -94,7 +94,7 @@ export default {
         })
         this.items.splice(itemRemove, 1)
         this.sum = this.items.reduce((total, item) => total + parseFloat(item.price.$numberDecimal), 0);
-        location.reload()
+        
       }
     },
   },
