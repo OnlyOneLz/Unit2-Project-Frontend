@@ -145,8 +145,8 @@ export default {
                     this.$router.replace({ path: '/Collection' });
                 });
         },
-        addToBasket: async function () {
-            await fetch(`${process.env.VUE_APP_BACKEND_API}/AddToBasket`, {
+        addToBasket: function () {
+            fetch(`${process.env.VUE_APP_BACKEND_API}/AddToBasket`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -163,7 +163,6 @@ export default {
                 })
                 this.displayRemoveBtn = true
                 location.reload()
-               
         },
         removeProduct: function () {
             fetch(`${process.env.VUE_APP_BACKEND_API}/Product`, {
