@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app v-if="dataReady">
     <v-app-bar app>
       <v-img class="mr-2" src="./assets/img/Free_Sample_By_Wix.jpg" max-height="100" max-width="200" contain></v-img>
       <v-btn to="/">Home</v-btn>
@@ -38,6 +38,7 @@ export default {
     itemArray: [],
     items: '',
     length: '',
+    dataReady: false
   }),
   mounted() {
     if (this.$cookies.isKey('user_session')) {
@@ -53,6 +54,7 @@ export default {
       .then((response) => response.json())
       .then((result) => {
         this.items = result.items;
+        this.dataReady = true
       })
       .catch((error) => {
         this.error = 'Error fetching data: ' + error;
@@ -63,6 +65,7 @@ export default {
       .then((result) => {
         this.itemArray = result.items;
         this.length = this.itemArray.length
+        this.dataReady = true
       })
       .catch((error) => {
         this.error = 'Error fetching data: ' + error;
