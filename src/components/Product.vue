@@ -177,7 +177,7 @@ export default {
             }).then(res => res.json())
                 .then(data => {
                     this.itemArray = data.items
-                })
+                
             let sum = 0
             this.itemArray.forEach(item => {
                 if (this.id === item._id) {
@@ -188,6 +188,7 @@ export default {
                 this.displayRemoveBtn = false
             }
             location.reload()
+        })
 
         },
         itemExists: function (productId) {
