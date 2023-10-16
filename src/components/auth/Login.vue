@@ -33,7 +33,6 @@ export default {
       console.log(userData);
       this.userName = userData.given_name;
       this.$cookies.set('user_session', response.credential);
-      location.reload()
       fetch(`${process.env.VUE_APP_BACKEND_API}/user/login`, {
         method: 'POST',
         headers: {
@@ -51,7 +50,6 @@ export default {
       googleLogout();
       this.$cookies.remove('user_session');
       this.isLoggedIn = false;
-      location.reload()
     }
   }
 };
