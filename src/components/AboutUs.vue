@@ -18,7 +18,7 @@
             is as unique as your own fitness journey, and it all began with a vision to redefine the fitness industry.</p>
 
           <h2>Our Story</h2>
-          <p>[Your Brand] was founded by a group of fitness enthusiasts who dared to dream big. We understood the
+          <p>Fitness Fien was founded by a group of fitness enthusiasts who dared to dream big. We understood the
             struggles, aspirations, and dreams of fitness aficionados like you. We envisioned a brand that's more than
             just workout gear; it's a lifestyle. From a small start-up to a global sensation, we've made it our mission to
             revolutionize the fitness industry.</p>
