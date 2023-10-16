@@ -52,7 +52,7 @@ export default {
             const formattedDate = new Date().toLocaleDateString(undefined, options);
             this.review.date = formattedDate;
       console.log(`${this.date} ${this.review.rating} ${this.text}`);
-      fetch(`${process.env.VUE_APP_BACKEND_API}/${this.review.id}/AddReview`, {
+      fetch(`${process.env.VUE_APP_BACKEND_API}/Product/${this.review.id}/AddReview`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
