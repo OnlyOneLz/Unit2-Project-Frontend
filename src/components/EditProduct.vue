@@ -35,7 +35,7 @@ export default {
             }
         }
         const route = useRoute()
-        fetch(`http://localhost:4000/Product/${route.params.id}`)
+        fetch(`${process.env.VUE_APP_BACKEND_API}/${route.params.id}`)
             .then((response) => response.json())
             .then((result) => {
                 this.product = result  
@@ -49,7 +49,7 @@ export default {
     },
     methods: {
         editProduct: function () {
-            fetch(`http://localhost:4000/EditProduct/${this.id}`, {
+            fetch(`${process.env.VUE_APP_BACKEND_API}/${this.id}`, {
                 method: "POST", 
                 headers: {
                     "Content-Type": "application/json"

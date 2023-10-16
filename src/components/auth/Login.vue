@@ -34,7 +34,7 @@ export default {
       this.userName = userData.given_name;
       this.$cookies.set('user_session', response.credential);
       location.reload()
-      fetch('http://localhost:4000/user/login', {
+      fetch(`${process.env.VUE_APP_BACKEND_API}/user/login`, {
         method: 'POST',
         headers: {
           "Content-Type": "application/json"

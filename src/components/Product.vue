@@ -67,7 +67,7 @@
                                         from basket</v-btn>
                                 </div>
                             </div>
-                            <div class="addReviews">
+                            <div v-if="isLoggedIn" class="addReviews">
                                 <AddReview />
                             </div>
                         </div>
@@ -85,12 +85,12 @@
                                     <img :src="review.image" alt="">
                                     <p>Made By- {{ review.name }}</p>
                                 </div>
-                                <p>Date of Review - {{ review.date }}</p>
-                                <p>Rating - {{ review.rating }}/5</p>
-                                <p>Thoughts - {{ review.text }}</p>
+                                <p>Date - {{ review.date }}</p>
+                                <p>Stars - {{ review.rating }}/5</p>
+                                <p>- {{ review.text }}</p>
                             </div>
                             <div class="review-actions">
-                                <v-btn v-if="review.userEmail === userEmail" @click="deleteReview(review._id)">Delete
+                                <v-btn v-if="review.userEmail === userEmail || admin" @click="deleteReview(review._id)">Delete
                                     Review</v-btn>
                             </div>
                         </div>
@@ -124,6 +124,7 @@ export default {
             message: '',
             reviewEmail: '',
             showReviews: false,
+            admin: '',
         }
     },
     emits: ['length'],
@@ -135,7 +136,7 @@ export default {
             this.showReviews = !this.showReviews;
         },
         deleteProduct: function () {
-            fetch(`http://localhost:4000/Product/${this.id}`, {
+            fetch(`${process.env.VUE_APP_BACKEND_API}/Product/${this.id}`, {
                 method: 'DELETE',
             })
                 .then(() => {
@@ -143,7 +144,7 @@ export default {
                 });
         },
         addToBasket: function () {
-            fetch(`http://localhost:4000/AddToBasket`, {
+            fetch(`${process.env.VUE_APP_BACKEND_API}/AddToBasket`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -158,11 +159,11 @@ export default {
                     this.itemArray = data.items
                     console.log(data.items)
                 })
-            this.displayRemoveBtn = true
-            location.reload()
+                this.displayRemoveBtn = true
+                location.reload()
         },
         removeProduct: function () {
-            fetch(`http://localhost:4000/Product`, {
+            fetch(`${process.env.VUE_APP_BACKEND_API}/Product`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -191,7 +192,7 @@ export default {
             return this.itemArray.some((item) => item._id === productId);
         },
         deleteReview(reviewId) {
-            fetch(`http://localhost:4000/Product/${reviewId}/Review`, {
+            fetch(`${process.env.VUE_APP_BACKEND_API}/Product/${reviewId}/Review`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
@@ -217,7 +218,7 @@ export default {
             }
         }
         const route = useRoute();
-        fetch(`http://localhost:4000/Product/user/${this.userEmail}`)
+        fetch(`${process.env.VUE_APP_BACKEND_API}/Product/user/${this.userEmail}`)
             .then((response) => response.json())
             .then((result) => {
                 this.itemArray = result.items;
@@ -228,7 +229,7 @@ export default {
                 }
             });
 
-        fetch(`http://localhost:4000/Product/${route.params.id}`)
+        fetch(`${process.env.VUE_APP_BACKEND_API}/Product/${route.params.id}`)
             .then((response) => response.json())
             .then((result) => {
                 this.Product = result;
@@ -238,7 +239,7 @@ export default {
             .catch((error) => {
                 this.error = 'Error fetching data: ' + error;
             });
-        fetch(`http://localhost:4000/Product/${route.params.id}/Review`)
+        fetch(`${process.env.VUE_APP_BACKEND_API}/Product/${route.params.id}/Review`)
             .then((response) => response.json())
             .then((result) => {
                 this.reviews = result
@@ -540,18 +541,20 @@ edit-review-button {
 
 .product-reviews {
     text-align: center;
-    min-height: 400px;
+    min-height: 600px;
 }
 
 .reviews-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
+  
 
 }
 
 .review-box {
+    font-size: small;
     max-width: 700px;
     width: 100%;
     background-color: rgb(255, 255, 255);
@@ -560,7 +563,7 @@ edit-review-button {
     padding: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin: 15px;
-    max-height: 20vmin;
+    max-height: 30vmin;
 }
 
 .review-details {

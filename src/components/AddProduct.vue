@@ -26,7 +26,7 @@ export default {
   methods: {
     AddProduct: function () {
       console.log(`${this.product.name} ${this.product.description} ${this.product.price}`)
-      fetch('http://localhost:4000/AddProduct', {
+      fetch(`${process.env.VUE_APP_BACKEND_API}/AddProduct`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'

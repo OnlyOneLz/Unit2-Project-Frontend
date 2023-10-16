@@ -21,7 +21,7 @@ export default {
   }),
 
   mounted() {
-    fetch('http://localhost:4000/Collection')
+    fetch(`${process.env.VUE_APP_BACKEND_API}/Collection`)
       .then((response) => response.json())
       .then((result) => {
         this.Products = result;

@@ -3,7 +3,7 @@
     <div class="star-rating">
       <span v-for="star in 5" :key="star" @click="setRating(star)" :class="{ 'filled': star <= review.rating }">&#9733;</span>
     </div>
-    <p><textarea v-model="text" type="text" placeholder="Leave a review" class="input-field"></textarea></p>
+    <p><textarea v-model="text" type="text" placeholder="Leave a review" class="input-field" :maxlength="maxLength"></textarea></p>
     <v-btn class="uploadReview" @click="addReview">Upload Review</v-btn>
   </div>
 </template>
@@ -23,8 +23,9 @@ export default {
         rating: 0,
         text: '',
         id: '',
-        reviewDate:''
+        reviewDate:'',  
       },
+      maxLength: '50',
       userName: '',
       image: ''
     };
@@ -51,7 +52,7 @@ export default {
             const formattedDate = new Date().toLocaleDateString(undefined, options);
             this.review.date = formattedDate;
       console.log(`${this.date} ${this.review.rating} ${this.text}`);
-      fetch(`http://localhost:4000/Product/${this.review.id}/AddReview`, {
+      fetch(`${process.env.VUE_APP_BACKEND_API}/${this.review.id}/AddReview`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

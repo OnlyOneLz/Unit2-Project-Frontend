@@ -28,7 +28,7 @@
         <v-container v-if="isLoggedIn">
           <v-row>
             <v-col cols="12" md="6">
-              <h3> Check out our free workuts </h3>
+              <h3> Check out our free workouts </h3>
               <v-btn><router-link :to="'/Workouts'">Here</router-link></v-btn>
             </v-col>
             <v-col cols="12" md="6">

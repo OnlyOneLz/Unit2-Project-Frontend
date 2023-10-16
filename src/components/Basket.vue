@@ -48,7 +48,7 @@ export default {
       this.userEmail = userData.email;
     }
 
-    fetch(`http://localhost:4000/Basket/${this.userEmail}`)
+    fetch(`${process.env.VUE_APP_BACKEND_API}/${this.userEmail}`)
       .then((response) => response.json())
       .then((result) => {
         this.items = result.items;
@@ -71,7 +71,7 @@ export default {
     removeItem(itemId) {
       const itemRemove = this.items.findIndex((item) => item._id === itemId);
       if(itemRemove !== -1){
-      fetch(`http://localhost:4000/user/Basket`, {
+      fetch(`${process.env.VUE_APP_BACKEND_API}/user/Basket`, {
         method: "DELETE",
         headers: {
           'Content-Type': 'application/json'
