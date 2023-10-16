@@ -160,7 +160,6 @@ export default {
                     console.log(data.items)
                 })
                 this.displayRemoveBtn = true
-                location.reload()
         },
         removeProduct: function () {
             fetch(`${process.env.VUE_APP_BACKEND_API}/Product`, {
@@ -185,8 +184,6 @@ export default {
             if (sum === 1) {
                 this.displayRemoveBtn = false
             }
-            location.reload()
-
         },
         itemExists: function (productId) {
             return this.itemArray.some((item) => item._id === productId);
@@ -201,10 +198,7 @@ export default {
                 .catch((error) => {
                     console.error('Error deleting review:', error);
                 });
-        },
-        reloadPage: function () {
-      location.reload
-    }
+        }
     },
     mounted() {
         if (this.$cookies.isKey('user_session')) {
