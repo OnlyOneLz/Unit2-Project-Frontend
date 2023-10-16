@@ -39,7 +39,7 @@ export default {
       this.userName = userData.given_name;
       this.userEmail = userData.email;
     }
-    fetch(`http://localhost:4000/Basket/${this.userEmail}`)
+    fetch(`${process.env.VUE_APP_BACKEND_API}/Basket/${this.userEmail}`)
       .then((response) => response.json())
       .then((result) => {
         this.items = result.items;
@@ -63,7 +63,7 @@ export default {
         const body = document.querySelector('body');
         this.active = !this.active;
         this.active ? body.classList.add('modal-open') : body.classList.remove('modal-open');
-        fetch(`http://localhost:4000/Basket/User`, {
+        fetch(`${process.env.VUE_APP_BACKEND_API}/Basket/User`, {
         method: "DELETE",
         headers: {
           'Content-Type': 'application/json'
