@@ -48,7 +48,7 @@ export default {
       this.userEmail = userData.email;
     }
 
-    fetch(`${process.env.VUE_APP_BACKEND_API}/${this.userEmail}`)
+    fetch(`${process.env.VUE_APP_BACKEND_API}/Basket/${this.userEmail}`)
       .then((response) => response.json())
       .then((result) => {
         this.items = result.items;
