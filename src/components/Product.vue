@@ -8,7 +8,7 @@
     </head>
 
     <body>
-        <div class="container">
+        <div v-if="dataReady" class="container">
             <div class="card">
                 <div class="container-fliud">
                     <div class="wrapper row">
@@ -125,6 +125,7 @@ export default {
             reviewEmail: '',
             showReviews: false,
             admin: '',
+            dataReady: false
         }
     },
     emits: ['length'],
@@ -226,6 +227,7 @@ export default {
                 if (this.isLoggedIn) {
                     this.displayRemoveBtn = this.itemExists(route.params.id);
                     console.log(this.itemExists(route.params.id));
+                    this.dataReady = true
                 }
             });
 
