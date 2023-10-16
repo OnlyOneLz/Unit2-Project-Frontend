@@ -145,8 +145,8 @@ export default {
                     this.$router.replace({ path: '/Collection' });
                 });
         },
-        addToBasket: function () {
-            fetch(`${process.env.VUE_APP_BACKEND_API}/AddToBasket`, {
+        addToBasket: async function () {
+            await fetch(`${process.env.VUE_APP_BACKEND_API}/AddToBasket`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -160,9 +160,9 @@ export default {
                 .then(data => {
                     this.itemArray = data.items
                     console.log(data.items)
-                    this.displayRemoveBtn = true
-                    location.reload()
                 })
+                this.displayRemoveBtn = true
+                location.reload()
                
         },
         removeProduct: function () {
