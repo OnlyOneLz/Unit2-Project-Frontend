@@ -216,7 +216,7 @@ export default {
             this.userName = userData.given_name;
             this.userEmail = userData.email;
             this.admin = false;
-            if (this.userEmail === 'john.paul.godfrey@gmail.com') {
+            if (this.userEmail === 'elliotrnlewis@gmail.com') {
                 this.admin = true;
             }
         }
