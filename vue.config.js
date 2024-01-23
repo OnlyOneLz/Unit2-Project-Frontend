@@ -1,8 +1,10 @@
-const { defineConfig } = require('@vue/cli-service')
-module.exports = defineConfig({
-  devServer: {
-    allowedHosts: ['https://unit2-project-frontend-production.up.railway.app/']
-  }
-})
+
+module.exports = {
+  configureWebpack: {
+    devServer: {
+      allowedHosts: ['unit2-project-frontend-production.up.railway.app'],
+    },
+  },
+};
 
 
